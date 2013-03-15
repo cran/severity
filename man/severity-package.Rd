@@ -12,7 +12,7 @@ This package contains functions for calculating severity and generating severity
 \tabular{ll}{
 Package: \tab severity\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.1\cr
 Date: \tab 2013-03-15\cr
 License: \tab GPL (>= 2)\cr
 }
@@ -21,7 +21,7 @@ There is one function in this package, which is called \sQuote{severity}: it (1)
 \author{
 Nicole Mee-Hyaang Jinn \cr
 
-Maintainer: Nicole Mee-Hyaang Jinn <njinn@vt.edu>
+Maintainer: Nicole Mee-Hyaang Jinn <nicole.jinn@gmail.com>
 }
 \references{
 Mayo, Deborah G. 2012. \dQuote{Statistical Science Meets Philosophy of Science Part 2: Shallow Versus Deep Explorations.} \emph{Rationality, Markets and Morals: Studies at the Intersection of Philosophy and Economics} 3 (Special Topic: Statistical Science and Philosophy of Science) (September 26): 71-107. http://www.rmm-journal.com/downloads/Article_Mayo2.pdf. \cr
