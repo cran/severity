@@ -1,9 +1,17 @@
-severity = function(xbar, sigma, n, alpha)
+severity = function(mu0, xbar, sigma, n, alpha)
 {
 	require(graphics)
+	### check inputs ###
+	mu0 = as.integer(mu0) # make sure it is an integer
+  n = as.integer(n) # make sure it is an integer
+  sigma = as.numeric(sigma)
+  alpha = as.numeric(alpha)
+  if(class(xbar) != "numeric")
+  {
+    xbar = as.numeric(xbar)
+  }
+  ### begin severity calculations ###
 	r = length(xbar)
-	mu0 = 12 # hypothesized value of parameter
-	mu0 = as.numeric(mu0)
 	gamma = seq(from = -0.5, to = 1.5, by = 0.05) # discrepancies of interest
 	l = length(gamma)
 	mu1 = rep(x = mu0, times = l) + gamma
@@ -54,13 +62,28 @@ severity = function(xbar, sigma, n, alpha)
 		lines(x = mu1, y = power, col = "red", lty = 2) # power curve
 		if(m1 == 1)
 		{
-			legend(x = mu1[1], y = 0.625, col = c("blue", "red"), lty = c(1, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), "power"), cex = 0.65)
+		  if(m2 > 0)
+		  {
+		    legend(x = mu1[floor(l/2) - 3], y = 0.525, col = c("blue", "red"), lty = c(1, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), "power"), cex = 0.65)
+		  }
+      else
+      {
+        legend(x = mu1[l - 10], y = 0.525, col = c("blue", "red"), lty = c(1, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), "power"), cex = 0.65)
+      }
 		}
+    
 	}
 	if(m1 == 2)
 	{
 		lines(x = x_reject[, 2], y = sev_rejectH0[, 2], col = "blue", lty = 3)
-		legend(x = mu1[1], y = 0.625, col = c("blue", "blue", "red"), lty = c(1, 3, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), "power"), cex = 0.65)
+		if(m2 > 0)
+		{
+		  legend(x = mu1[floor(l/2) - 3], y = 0.525, col = c("blue", "blue", "red"), lty = c(1, 3, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), "power"), cex = 0.65)
+		}
+    else
+    {
+      legend(x = mu1[l - 10], y = 0.525, col = c("blue", "blue", "red"), lty = c(1, 3, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), "power"), cex = 0.65)
+    }
 	}
 	else if(m1 >= 3)
 	{
@@ -68,11 +91,11 @@ severity = function(xbar, sigma, n, alpha)
 		lines(x = x_reject[, 3], y = sev_rejectH0[, 3], col = "blue", lty = 4)
 		if(m2 > 0)
 		{
-			legend(x = mu1[26], y = 0.6, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), as.expression(bquote(bar(x) == .(x1[3]))), "power"), cex = 0.6)
+			legend(x = mu1[floor(l/2) - 3], y = 0.5, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), as.expression(bquote(bar(x) == .(x1[3]))), "power"), cex = 0.6)
 		}
 		else
 		{
-			legend(x = mu1[l-9], y = 0.6, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), as.expression(bquote(bar(x) == .(x1[3]))), "power"), cex = 0.6)
+			legend(x = mu1[l - 10], y = 0.5, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x1[1]))), as.expression(bquote(bar(x) == .(x1[2]))), as.expression(bquote(bar(x) == .(x1[3]))), "power"), cex = 0.6)
 		}
 	}
 	### accept H0 ###
@@ -91,26 +114,19 @@ severity = function(xbar, sigma, n, alpha)
 		lines(x = mu1, y = power, col = "red", lty = 2) # power curve
 		if(m2 == 1)
 		{
-			legend(x = mu1[2], y = max(sev_acceptH0[, 1]), col = c("blue", "red"), lty = c(1, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), "power"), cex = 0.65)
+			legend(x = mu1[floor(l/2) - 2], y = 0.275, col = c("blue", "red"), lty = c(1, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), "power"), cex = 0.65)
 		}
 	}
 	if(m2 == 2)
 	{
 		lines(x = x_accept[, 2], y = sev_acceptH0[, 2], col = "blue", lty = 3)
-		legend(x = mu1[2], y = max(sev_acceptH0[, 1]), col = c("blue", "blue", "red"), lty = c(1, 3, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), as.expression(bquote(bar(x) == .(x2[2]))), "power"), cex = 0.65)
+		legend(x = mu1[floor(l/2) - 2], y = 0.275, col = c("blue", "blue", "red"), lty = c(1, 3, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), as.expression(bquote(bar(x) == .(x2[2]))), "power"), cex = 0.65)
 	}
 	else if(m2 >= 3)
 	{
 		lines(x = x_accept[, 2], y = sev_acceptH0[, 2], col = "blue", lty = 3)
 		lines(x = x_accept[, 3], y = sev_acceptH0[, 3], col = "blue", lty = 4)
-		if(m1 > 0)
-		{
-			legend(x = mu1[26], y = 0.25, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), as.expression(bquote(bar(x) == .(x2[2]))), as.expression(bquote(bar(x) == .(x2[3]))), "power"), cex = 0.6)
-		}
-		else
-		{
-			legend(x = mu1[l-9], y = 0.25, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), as.expression(bquote(bar(x) == .(x2[2]))), as.expression(bquote(bar(x) == .(x2[3]))), "power"), cex = 0.6)
-		}
+		legend(x = mu1[floor(l/2) - 2], y = 0.25, col = c("blue", "blue", "blue", "red"), lty = c(1, 3, 4, 2), legend = c(as.expression(bquote(bar(x) == .(x2[1]))), as.expression(bquote(bar(x) == .(x2[2]))), as.expression(bquote(bar(x) == .(x2[3]))), "power"), cex = 0.6)
 	}
 	output = data.frame(sev_rejectH0, sev_acceptH0, power, gamma)
 	return(list(accept = accept, p = p, "severity_acceptH0" = sev_acceptH0, "severity_rejectH0" = sev_rejectH0, power = power, "discrepancy" = gamma))

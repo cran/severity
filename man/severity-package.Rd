@@ -12,11 +12,13 @@ This package contains functions for calculating severity and generating severity
 \tabular{ll}{
 Package: \tab severity\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2013-03-15\cr
+Version: \tab 2.0\cr
+Date: \tab 2013-03-27\cr
 License: \tab GPL (>= 2)\cr
 }
-There is one function in this package, which is called \sQuote{severity}: it (1) computes severity at various discrepancies (from the null hypothesis) for the hypothesis test \eqn{H_{0}: \mu = 12} vs \eqn{H_{1}: \mu > 12}; and (2) plots both the severity curve and the power curve on a single plot.
+There is one function in this package, which is called \emph{severity}: it (1) computes severity at various discrepancies (from the null hypothesis) for the hypothesis test \eqn{H_{0}: \mu = \mu_{0}} vs \eqn{H_{1}: \mu > \mu_{0}}, where \eqn{\mu_{0}} is the hypothesized value; and (2) plots both the severity curve(s) and the power curve on a single plot. \cr
+
+*** The difference between this version and previous versions is that one more input is added for additional flexibility: the user is now able to control the hypothesized value of the (unknown) parameter \eqn{\mu}. ***
 }
 \author{
 Nicole Mee-Hyaang Jinn \cr
@@ -41,10 +43,10 @@ Mayo, Deborah G., and Aris Spanos. 2011. \dQuote{Error Statistics.} In \emph{Phi
 \examples{
 %%  ~~ simple examples of the most important functions ~~
 library(severity)
+mu0 <- 5
 sigma <- 2
 n <- 100
 alpha <- 0.025
-xbar <- c(12.39, 12.30, 12.10, 12.40, 12.60, 12.80)
-sev <- severity(xbar = xbar, sigma = sigma, n = n, alpha = alpha)
-sev
+xbar <- c(5.39, 5.30, 5.10, 5.40, 5.60, 5.85)
+(sev <- severity(mu0 = mu0, xbar = xbar, sigma = sigma, n = n, alpha = alpha))
 }
